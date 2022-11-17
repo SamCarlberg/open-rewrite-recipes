@@ -1,5 +1,6 @@
 import nebula.plugin.contacts.Contact
 import nebula.plugin.contacts.ContactsExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `java-library`
@@ -15,6 +16,7 @@ plugins {
 
     id("nebula.javadoc-jar") version "18.4.0"
     id("nebula.source-jar") version "18.4.0"
+    kotlin("jvm") version "1.8.0-Beta"
 }
 
 apply(plugin = "nebula.publish-verification")
@@ -66,6 +68,7 @@ dependencies {
 
     testImplementation("org.openrewrite:rewrite-test")
     testImplementation("org.assertj:assertj-core:latest.release")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.named<Test>("test") {
@@ -102,4 +105,12 @@ publishing {
           url = uri("https://us-west1-maven.pkg.dev/moderne-dev/moderne-recipe")
       }
   }
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }
